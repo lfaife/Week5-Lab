@@ -1,0 +1,8 @@
+[project]
+name = "knight-tasks"
+version = "0.1.0"
+description = "Tiny CLI task tracker for the agentic AI hands-on"
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
