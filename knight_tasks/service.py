@@ -36,6 +36,8 @@ def list_tasks(
 
 def completion_rate(tasks: list[Task]) -> float:
     """Fraction of tasks that are done, from 0.0 to 1.0."""
+    if not tasks:
+        return 0.0
     done = sum(1 for t in tasks if t.done)
     return done / len(tasks)
 
