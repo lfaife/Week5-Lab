@@ -11,7 +11,9 @@ A small command-line task tracker used in the Week 1 agentic AI hands-on.
 ## Run
 
     python -m knight_tasks.cli add "Write lab report" --priority high
+    python -m knight_tasks.cli add "Submit lab" --due 2026-10-01
     python -m knight_tasks.cli list
+    python -m knight_tasks.cli overdue
     python -m knight_tasks.cli done 1
     python -m knight_tasks.cli stats
 

@@ -3,8 +3,8 @@
 ## Open items
 
 - `list --sort priority` looks wrong to at least one user. Nobody has confirmed it yet.
-- `cli.py` has no tests.
-- We would like due dates and an `overdue` command at some point.
+- `cli.py` has only basic tests (due dates / overdue); other commands untested.
+- Due dates (`add --due`) and the `overdue` command are implemented.
 
 ## Conventions
 

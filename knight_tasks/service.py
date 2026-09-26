@@ -1,6 +1,8 @@
 """Business logic for knight-tasks. No I/O in this module."""
 from __future__ import annotations
 
+from datetime import date
+
 from .models import Task
 
 
@@ -8,8 +10,13 @@ def next_id(tasks: list[Task]) -> int:
     return max((t.id for t in tasks), default=0) + 1
 
 
-def add_task(tasks: list[Task], title: str, priority: str = "medium") -> Task:
-    task = Task(id=next_id(tasks), title=title, priority=priority)
+def add_task(
+    tasks: list[Task],
+    title: str,
+    priority: str = "medium",
+    due: date | None = None,
+) -> Task:
+    task = Task(id=next_id(tasks), title=title, priority=priority, due=due)
     tasks.append(task)
     return task
 
@@ -32,6 +39,12 @@ def list_tasks(
         # Highest priority first.
         return sorted(visible, key=lambda t: t.priority)
     raise ValueError(f"unknown sort key: {sort_by!r}")
+
+
+def overdue_tasks(tasks: list[Task], today: date) -> list[Task]:
+    """Open tasks whose due date is strictly before `today`."""
+    late = [t for t in tasks if not t.done and t.due is not None and t.due < today]
+    return sorted(late, key=lambda t: (t.due, t.id))
 
 
 def completion_rate(tasks: list[Task]) -> float:

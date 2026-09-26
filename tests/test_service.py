@@ -47,3 +47,41 @@ def test_stats_on_empty_list():
         "open": 0,
         "completion_rate": 0.0,
     }
+
+
+def test_add_task_with_due_date():
+    from datetime import date
+
+    task = service.add_task([], "Due thing", due=date(2026, 10, 1))
+    assert task.due == date(2026, 10, 1)
+
+
+def test_overdue_returns_open_past_due_only():
+    from datetime import date
+
+    today = date(2026, 9, 26)
+    tasks = [
+        Task(id=1, title="late", due=date(2026, 9, 1)),
+        Task(id=2, title="future", due=date(2026, 12, 1)),
+        Task(id=3, title="no due"),
+        Task(id=4, title="late but done", due=date(2026, 9, 1), done=True),
+    ]
+    assert [t.id for t in service.overdue_tasks(tasks, today)] == [1]
+
+
+def test_overdue_excludes_task_due_today():
+    from datetime import date
+
+    today = date(2026, 9, 26)
+    assert service.overdue_tasks([Task(id=1, title="t", due=today)], today) == []
+
+
+def test_overdue_sorted_by_due_date():
+    from datetime import date
+
+    tasks = [
+        Task(id=1, title="b", due=date(2026, 9, 10)),
+        Task(id=2, title="a", due=date(2026, 9, 1)),
+    ]
+    result = service.overdue_tasks(tasks, date(2026, 9, 26))
+    assert [t.id for t in result] == [2, 1]
